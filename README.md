@@ -1,0 +1,1 @@
+# nx_bootcamp_nix_diary
