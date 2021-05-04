@@ -1,5 +1,6 @@
 #!/bin/sh
-#
+# This script should be run via wget:
+# sh -c "$(wget -qO- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 set -e
 # Default settings
 DIARYPATH=${DIARYPATH:-~/.diary}
