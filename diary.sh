@@ -127,7 +127,7 @@ function choose_editor() {
         echo "Text editor 'emacs' seted"
         ;;
     4)
-        exit 0
+        return 0
         ;;
     *)
         echo "Unavailable option"
