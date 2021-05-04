@@ -4,10 +4,12 @@ umask g-w,o-w
 
 if [ -z "$DIARYPATH" ]; then
     mkdir -p $HOME/diary/recycle_diary_bin
-    DIARYPATH="$HOME/diary"
-    export DIARYPATH
-    DIARYRECYCLEPATH="$DIARYPATH/recycle_diary_bin"
-    export DIARYRECYCLEPATH
+    DIARYPATH="$HOME/diary"; export DIARYPATH
+    DIARYRECYCLEPATH="$DIARYPATH/recycle_diary_bin"; export DIARYRECYCLEPATH
+fi
+
+if [ -z " $DIARYRECYCLEPATH" ]; then
+DIARYRECYCLEPATH="$DIARYPATH/recycle_diary_bin"; export DIARYRECYCLEPATH
 fi
 
 if [ -z "$EDITOR" ]; then
