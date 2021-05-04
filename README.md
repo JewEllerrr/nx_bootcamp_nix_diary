@@ -1,13 +1,13 @@
 # nx_bootcamp_nix_diary
 
-###### This script should be run via wget:
+##### This script should be run via wget:
 ```  
 1) wget https://raw.githubusercontent.com/JewEllerrr/nx_bootcamp_nix_diary/main/diary.sh  
 2) source diary.sh  
 ```
-###### Example:
+##### Example executing commands:
 ```  
-$ diary
+* $ diary *
 Commands:
   add  [header name]        adds new note to diary
   open [note ID]            opens choosen note
@@ -20,7 +20,7 @@ Commands:
   remove_diary              removes diary
   last5                     shows last 5 created files
  
- $ choose_editor
+ * $ choose_editor *
  Choose alternative text editor:
   1  nano
   2  vim
