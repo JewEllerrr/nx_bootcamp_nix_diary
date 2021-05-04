@@ -7,7 +7,7 @@
 ```
 ##### Example executing commands:
 ```  
-* $ diary *
+$ diary
 Commands:
   add  [header name]        adds new note to diary
   open [note ID]            opens choosen note
@@ -20,7 +20,7 @@ Commands:
   remove_diary              removes diary
   last5                     shows last 5 created files
  
- * $ choose_editor *
+ $ choose_editor
  Choose alternative text editor:
   1  nano
   2  vim
