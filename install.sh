@@ -8,7 +8,6 @@
 #   sh -c "$(fetch -o - https://raw.githubusercontent.com/JewEllerrr/nx_bootcamp_nix_diary/main/install.sh)"
 #
 set -e
-# https://github.com/JewEllerrr/nx_bootcamp_nix_diary.git
 # Default settings
 DIARYPATH=${DIARYPATH:-~/.diary}
 REPO=${REPO:-JewEllerrr/nx_bootcamp_nix_diary}
