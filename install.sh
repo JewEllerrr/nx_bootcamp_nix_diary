@@ -1,11 +1,11 @@
 #!/bin/sh
 #
 # This script should be run via curl:
-#   sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+#   sh -c "$(curl -fsSL https://raw.githubusercontent.com/JewEllerrr/nx_bootcamp_nix_diary/main/install.sh)"
 # or via wget:
-#   sh -c "$(wget -qO- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+#   sh -c "$(wget -qO- https://raw.githubusercontent.com/JewEllerrr/nx_bootcamp_nix_diary/main/install.sh)"
 # or via fetch:
-#   sh -c "$(fetch -o - https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+#   sh -c "$(fetch -o - https://raw.githubusercontent.com/JewEllerrr/nx_bootcamp_nix_diary/main/install.sh)"
 #
 set -e
 # https://github.com/JewEllerrr/nx_bootcamp_nix_diary.git
