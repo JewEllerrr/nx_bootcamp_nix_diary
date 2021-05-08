@@ -1,39 +1,40 @@
 #!/bin/bash
 
-umask g-w,o-w
-
-if [ -z "$DIARYPATH" ]; then
-    mkdir -p $HOME/diary/recycle_diary_bin
-    DIARYPATH="$HOME/diary"; export DIARYPATH
-    DIARYRECYCLEPATH="$DIARYPATH/recycle_diary_bin"; export DIARYRECYCLEPATH
+if ! grep -q "source $HOME/diary.sh" $HOME/.bashrc; then
+    printf "source $HOME/diary.sh" >>$HOME/.bashrc
+    . $HOME/.bashrc
 fi
 
-if [ -z " $DIARYRECYCLEPATH" ]; then
-DIARYRECYCLEPATH="$DIARYPATH/recycle_diary_bin"; export DIARYRECYCLEPATH
+if [ -z "$DIARYPATH" ] || [ ! -d "$DIARYPATH" ]; then
+    mkdir -p $HOME/diary/recycle_diary_bin
+    DIARYPATH="$HOME/diary"
+    export DIARYPATH
+    DIARYRECYCLEPATH="$DIARYPATH/recycle_diary_bin"
+    export DIARYRECYCLEPATH
+fi
+
+if [ ! -d "$DIARYRECYCLEPATH" ] && [ -n $DIARYRECYCLEPATH ]; then
+    mkdir $DIARYRECYCLEPATH/recycle_diary_bin
 fi
 
 if [ -z "$EDITOR" ]; then
-    EDITOR=vi
+    EDITOR=nano
     export EDITOR
-fi
-
-if [ -f "$DIARYPATH/.diaryrc" ]; then
-    . "$DIARYPATH/.diaryrc"
 fi
 
 function diary() {
     echo "
 Commands:
-  add  [header name]        adds new note to diary
-  open [note ID]            opens choosen note
-  statistics                shows some statistics 
-  choose_editor             choices for the alternative text editor
-  setpath [PATH]            changes current path
-  getpath                   returns current diary path
-  delete [note ID]          deletes choosen note to recycle diary byn (rdb)
-  show_rdb                  shows files in recycle diary byn
-  remove_diary              removes diary
-  last5                     shows last 5 created files
+  add  [header name]            adds new note to diary
+  open [note ID]                opens choosen note
+  statistics                    shows some statistics 
+  change_editor [editor name]   choices for the alternative text editor
+  setpath [PATH]                changes current path
+  getpath                       returns current diary path
+  delete [note ID]              deletes choosen note to recycle diary byn (rdb)
+  show_rdb                      shows files in recycle diary byn
+  remove_diary                  removes diary
+  last5                         shows last 5 created files
 "
 }
 
@@ -47,8 +48,7 @@ function add() {
             mkdir -p $DIARYPATH/$current_year/$current_month
         fi
 
-        # bash generate random 5 character alphanumeric string (lowercase only)
-        local ID=$(cat /dev/urandom | tr -dc 'a-z0-9' | fold -w 5 | head -n 1)
+        local ID=$(uuidgen | fold -w 5 | head -n 1)
         touch $DIARYPATH/$current_year/$current_month/$ID"__$date.md"
         $EDITOR $DIARYPATH/$current_year/$current_month/$ID*
         echo "Note $1 added to your diary!"
@@ -80,7 +80,7 @@ function statistic() {
 
     case $doing in
     1)
-        echo "Number of stored diary notes: $(find $DIARYPATH -type f| wc -l)"; 
+        echo "Number of stored diary notes: $(find $DIARYPATH -type f | wc -l)"
         ;;
     2)
         echo "Should be Date of the last note"
@@ -98,43 +98,14 @@ function statistic() {
     esac
 }
 
-function choose_editor() {
-    echo "Choose alternative text editor:
-  1  nano
-  2  vim
-  3  emacs
-  4  exit
-  "
-    read doing
-
-    case $doing in
-    1)
-        EDITOR=nano
-        echo "Text editor 'nano' seted"
-        ;;
-    2)
-        if [ ! -e /usr/bin/vim ]; then
-            sudo apt-get update
-            sudo apt-get install vim -y
-        fi
-        EDITOR=vim
-        echo "Text editor 'vim' seted"
-        ;;
-    3)
-        if [ ! -e /usr/bin/emacs ]; then
-            sudo apt-get update
-            sudo apt-get install emacs -y
-        fi
-        EDITOR=emacs
-        echo "Text editor 'emacs' seted"
-        ;;
-    4)
-        return 0
-        ;;
-    *)
-        echo "Unavailable option"
-        ;;
-    esac
+function change_editor() {
+    if [ -z "$1" ]; then
+        echo "Please, enter editor name"
+    elif [ -e /usr/bin/$1 ]; then
+        EDITOR=$1
+    else
+        echo "Editor $1 is not installed"
+    fi
 }
 
 function setpath() {
@@ -191,9 +162,11 @@ function show_rdb() {
 function remove_diary() {
     if [ ! -z "$DIARYPATH" ]; then
         rm -r $DIARYPATH
+        sed -i '/diary/d' $HOME/.bashrc
     fi
 }
 
-function last5(){
-    find /$DIARYPATH -maxdepth 3 -type f -exec ls -s {} \; | sort -n -r | head -5
+function last5() {
+    #excluding recycle bin directory 
+    find $DIARYPATH -path $DIARYRECYCLEPATH -prune -false -o  -name "*.md" -printf "%f\n" | head -5
 }
