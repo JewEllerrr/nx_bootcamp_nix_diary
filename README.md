@@ -19,11 +19,4 @@ Commands:
   show_rdb                  shows files in recycle diary byn
   remove_diary              removes diary
   last5                     shows last 5 created files
- 
- $ choose_editor
- Choose alternative text editor:
-  1  nano
-  2  vim
-  3  emacs
-  4  exit
   ```  
